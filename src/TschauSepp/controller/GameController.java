@@ -2,6 +2,7 @@ package TschauSepp.controller;
 
 import TschauSepp.model.Ablagestapel;
 import TschauSepp.model.Karte;
+import TschauSepp.model.Kartenstapel;
 import TschauSepp.model.Spieler;
 import TschauSepp.view.ExitView;
 import TschauSepp.view.GameView;
@@ -20,15 +21,23 @@ public class GameController {
         String wollenLegenKarteNummer = legenKarte.getKuerzel().substring(2,4);
         String currentKarteNummer = ablagestapel.getObersteKarte().getKuerzel().substring(2,4);
 
+        System.out.println(wollenLegenKarteFarbe);
+        System.out.println(currentKarteFarbe);
+        System.out.println(wollenLegenKarteNummer);
+        System.out.println(currentKarteNummer);
+
         if (wollenLegenKarteFarbe.equals(currentKarteFarbe) || wollenLegenKarteNummer.equals(currentKarteNummer)){
             ablagestapel.addKarte(legenKarte);
             currentSpieler.removeKarte(legenKarte);
             gameView.nextSpieler();
+            gameView.paintCurrentPlayerCards();
         }
     }
 
-    public static void ziehenButtonController(Spieler currentSpieler){
-
+    public static void ziehenButtonController(Spieler currentSpieler, Kartenstapel kartenstapel, GameView gameView){
+        currentSpieler.addKarte(kartenstapel.getRandomKarteAndRemove());
+        gameView.nextSpieler();
+        gameView.paintCurrentPlayerCards();
     }
 
     public static void tschauButtonController(Spieler currentSpieler){

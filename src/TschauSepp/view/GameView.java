@@ -40,6 +40,7 @@ public class GameView extends JPanel {
         this.modus = modus;
 
         kartenstapel = new Kartenstapel();
+        ablagestapel = new Ablagestapel();
         setPlayerCards(spielerListe, kartenstapel);
 
         game = new Game(this);
@@ -75,18 +76,18 @@ public class GameView extends JPanel {
         currentSpieler = spielerListe.get(spielerCntr);
         spielerCntr++;
         winner = null;
+        ablagestapel.addKarte(kartenstapel.getRandomKarteAndRemove());
 
         init();
+
 
         if (modus == 'k'){
             textArea.setVisible(false);
             mainFrame.setFrameSize(900,880);
         }
-
         setAreaText();
         loadNetxtPlayerPanel();
 
-        runGame();
     }
 
     private void setPlayerCards(Vector<Spieler> spielerListe, Kartenstapel kartenstapel) {
@@ -103,7 +104,6 @@ public class GameView extends JPanel {
 
             if (kartenstapel.getAnzKarten() <= 5){
                 kartenstapel.addKartenset();
-
             }
         }
     }
@@ -118,13 +118,11 @@ public class GameView extends JPanel {
         mainPanel.add(centerPanel, BorderLayout.CENTER);
 
         topPanel.setLayout(new BorderLayout());
-        topPanel.add(topLabel, BorderLayout.CENTER);
         topPanel.add(textArea, BorderLayout.EAST);
 
         textArea.setPreferredSize(new Dimension(383,35));
 
-        //TODO current Spieler
-        topLabel.setText("Spieler 1");
+        topLabel.setText(currentSpieler.getName());
 
         westPanel.setLayout(new BorderLayout(10,10));
         JPanel panel1 = new JPanel();
@@ -144,10 +142,11 @@ public class GameView extends JPanel {
         movePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         movePanel.add(movePanelContent, BorderLayout.CENTER);
 
-        GridLayout moveGrid = new GridLayout(2,1);
-        moveGrid.setVgap(40);
+        GridLayout moveGrid = new GridLayout(3,1);
+        moveGrid.setVgap(30);
         movePanelContent.setLayout(moveGrid);
-        movePanelContent.setBorder(BorderFactory.createEmptyBorder(40,10,40,10));
+        movePanelContent.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        movePanelContent.add(topLabel);
         movePanelContent.add(legenButton);
         movePanelContent.add(ziehenButton);
 
@@ -213,7 +212,8 @@ public class GameView extends JPanel {
         });
 
         ziehenButton.addActionListener(e -> {
-
+            //TODO muss legen wenn kann
+            GameController.ziehenButtonController(currentSpieler,kartenstapel,this);
         });
 
         tschauButton.addActionListener(e -> {
@@ -227,7 +227,12 @@ public class GameView extends JPanel {
         exitButton.addActionListener(e -> GameController.exitButtonController(mainFrame));
     }
 
-    private void paintCurrentPlayerCards(){
+    public void paintCurrentPlayerCards(){
+        defaultListModel.removeAllElements();
+        topLabel.setText(currentSpieler.getName());
+        movePanel.setBackground(currentSpieler.getFarbe());
+        cardPanel.setBackground(currentSpieler.getFarbe());
+        sayPanel.setBackground(currentSpieler.getFarbe());
         for (int i = 0; i < currentSpieler.getHandkarten().size(); i++) {
             URL path = currentSpieler.getHandkarten().get(i).getPath();
             ImageIcon imageIcon = new ImageIcon(path);

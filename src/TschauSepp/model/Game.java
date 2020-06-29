@@ -17,8 +17,7 @@ public class Game {
 
     public void nextRound(){
         for (int i = 0; i < gameView.getSpielerListe().size(); i++) {
-            new Zug(gameView.getSpielerListe().get(i));
+            new Zug(gameView, gameView.getSpielerListe().get(i));
         }
-
     }
 }

@@ -32,6 +32,7 @@ public class GameView extends JPanel {
     private JTextArea textArea;
     private JButton legenButton, ziehenButton, tschauButton, seppButton, exitButton;
     private Spieler currentSpieler, winner;
+    private int spielerCntr;
 
     public GameView(MainFrame mainFrame, Vector<Spieler> spielerListe, char modus){
         this.mainFrame = mainFrame;
@@ -70,7 +71,9 @@ public class GameView extends JPanel {
         tschauButton = new JButton("Tschau");
         seppButton = new JButton("Sepp");
         exitButton = new JButton("Exit");
-        currentSpieler = spielerListe.get(0);
+        spielerCntr = 0;
+        currentSpieler = spielerListe.get(spielerCntr);
+        spielerCntr++;
         winner = null;
 
         init();
@@ -205,7 +208,7 @@ public class GameView extends JPanel {
 
         legenButton.addActionListener(e -> {
             if (!cardList.isSelectionEmpty()){
-                GameController.legenButtonController(currentSpieler, ablagestapel, currentSpieler.getHandkarten().get(cardList.getSelectedIndex()));
+                GameController.legenButtonController(currentSpieler, ablagestapel, currentSpieler.getHandkarten().get(cardList.getSelectedIndex()), this);
             }
         });
 
@@ -214,7 +217,7 @@ public class GameView extends JPanel {
         });
 
         tschauButton.addActionListener(e -> {
-            GameController.tschauButtonController();
+
         });
 
         seppButton.addActionListener(e -> {
@@ -276,5 +279,14 @@ public class GameView extends JPanel {
 
     public Vector<Spieler> getSpielerListe(){
         return spielerListe;
+    }
+
+    public void nextSpieler(){
+        currentSpieler = spielerListe.get(spielerCntr);
+        if (spielerCntr == (spielerListe.size() - 1)){
+            spielerCntr = 0;
+        } else {
+            spielerCntr++;
+        }
     }
 }

@@ -1,5 +1,7 @@
 package TschauSepp.model;
 
+import TschauSepp.view.GameView;
+
 /**
  * @author Felix Mann
  * @version 1.0
@@ -8,7 +10,7 @@ package TschauSepp.model;
 
 public class Zug {
 
-    public Zug(Spieler spieler){
+    public Zug(GameView gameView, Spieler spieler){
 
     }
 }

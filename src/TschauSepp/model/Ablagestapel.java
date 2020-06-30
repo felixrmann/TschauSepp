@@ -9,7 +9,7 @@ import java.util.Vector;
  */
 
 public class Ablagestapel {
-    private Vector<Karte> alleKarten;
+    private final Vector<Karte> alleKarten;
 
     public Ablagestapel(){
         alleKarten = new Vector<>();
@@ -20,7 +20,7 @@ public class Ablagestapel {
     }
 
     public Karte getObersteKarte(){
-        return alleKarten.lastElement();
+        return alleKarten.get(alleKarten.size() - 1);
     }
 
     public Vector<Karte> getAlleKartenAndEmpty(){
@@ -29,6 +29,4 @@ public class Ablagestapel {
         alleKarten.clear();
         return temp;
     }
-
-
 }

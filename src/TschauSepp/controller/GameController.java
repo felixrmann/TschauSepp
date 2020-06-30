@@ -8,6 +8,10 @@ import TschauSepp.view.ExitView;
 import TschauSepp.view.GameView;
 import TschauSepp.view.MainFrame;
 
+import javax.swing.*;
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * @author Felix Mann
  * @version 1.0
@@ -21,23 +25,53 @@ public class GameController {
         String wollenLegenKarteNummer = legenKarte.getKuerzel().substring(2,4);
         String currentKarteNummer = ablagestapel.getObersteKarte().getKuerzel().substring(2,4);
 
-        System.out.println(wollenLegenKarteFarbe);
-        System.out.println(currentKarteFarbe);
-        System.out.println(wollenLegenKarteNummer);
-        System.out.println(currentKarteNummer);
-
         if (wollenLegenKarteFarbe.equals(currentKarteFarbe) || wollenLegenKarteNummer.equals(currentKarteNummer)){
             ablagestapel.addKarte(legenKarte);
             currentSpieler.removeKarte(legenKarte);
             gameView.nextSpieler();
             gameView.paintCurrentPlayerCards();
+            gameView.loadAblagestapel();
         }
     }
 
-    public static void ziehenButtonController(Spieler currentSpieler, Kartenstapel kartenstapel, GameView gameView){
-        currentSpieler.addKarte(kartenstapel.getRandomKarteAndRemove());
-        gameView.nextSpieler();
-        gameView.paintCurrentPlayerCards();
+    public static void ziehenButtonController(Spieler currentSpieler, Kartenstapel kartenstapel, Ablagestapel ablagestapel, GameView gameView){
+        String ablageStapelKarteFarbe = ablagestapel.getObersteKarte().getKuerzel().substring(0,2);
+        String ablageStapelKarteNummer = ablagestapel.getObersteKarte().getKuerzel().substring(2,4);
+
+        boolean check = true;
+
+        for (int i = 0; i < currentSpieler.getHandkarten().size(); i++) {
+            if (ablageStapelKarteFarbe.equals(currentSpieler.getHandkarten().get(i).getKuerzel().substring(0, 2))){
+                check = false;
+            } else if (ablageStapelKarteNummer.equals(currentSpieler.getHandkarten().get(i).getKuerzel().substring(2, 4))){
+                check = false;
+            }
+        }
+
+        if (check){
+            currentSpieler.addKarte(kartenstapel.getRandomKarteAndRemove());
+            gameView.paintCurrentPlayerCards();
+            gameView.setDisabled();
+
+            java.util.Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    boolean check = true;
+                    for (int i = 0; i < currentSpieler.getHandkarten().size(); i++) {
+                        if (ablageStapelKarteFarbe.equals(currentSpieler.getHandkarten().get(i).getKuerzel().substring(0, 2))){
+                            check = false;
+                        } else if (ablageStapelKarteNummer.equals(currentSpieler.getHandkarten().get(i).getKuerzel().substring(2, 4))){
+                            check = false;
+                        }
+                    }
+                    if (check) {
+                        gameView.nextSpieler();
+                        gameView.paintCurrentPlayerCards();
+                    }
+                }
+            }, 2000);
+        }
     }
 
     public static void tschauButtonController(Spieler currentSpieler){

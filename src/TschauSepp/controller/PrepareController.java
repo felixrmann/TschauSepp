@@ -2,7 +2,6 @@ package TschauSepp.controller;
 
 import TschauSepp.model.Spieler;
 import TschauSepp.view.*;
-import com.sun.tools.javac.Main;
 
 import java.util.Vector;
 

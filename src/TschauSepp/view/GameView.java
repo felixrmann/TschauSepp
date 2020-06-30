@@ -24,7 +24,7 @@ public class GameView extends JPanel {
     private Ablagestapel ablagestapel;
     private Vector<Spieler> spielerListe;
     private char modus;
-    private JPanel mainPanel, topPanel, botPanel, centerPanel, centerRightPanel, centerRightCardPanel, centerRCCPanel, centerLeftPanel, centerLeftCardPanel, centerLCCPanel, westPanel, playerPanel, movePanel, movePanelContent, cardPanel, sayPanel, sayPanelContent;
+    private JPanel mainPanel, topPanel, botPanel, centerPanel, centerRightPanel, centerRightCardPanel, centerLeftPanel, centerLeftCardPanel, westPanel, playerPanel, movePanel, movePanelContent, cardPanel, sayPanel, sayPanelContent;
     private JScrollPane scrollPane;
     private JList<ImageIcon> cardList;
     private DefaultListModel<ImageIcon> defaultListModel;
@@ -56,8 +56,6 @@ public class GameView extends JPanel {
         centerRightPanel = new JPanel();
         centerLeftCardPanel = new JPanel();
         centerRightCardPanel = new JPanel();
-        centerLCCPanel = new JPanel();
-        centerRCCPanel = new JPanel();
         westPanel = new JPanel();
         playerPanel = new JPanel();
         movePanel = new JPanel();
@@ -179,31 +177,24 @@ public class GameView extends JPanel {
         centerPanel.add(centerLeftPanel);
         centerPanel.add(centerRightPanel);
 
-        centerLeftPanel.setLayout(new BorderLayout());
-        centerLeftPanel.setBackground(Color.CYAN);
-        centerLeftPanel.add(centerLeftCardPanel, BorderLayout.EAST);
+        centerLeftPanel.setLayout(new BorderLayout(10,10));
+        centerLeftPanel.setBorder(BorderFactory.createEmptyBorder(80,40,80,40));
+        centerLeftPanel.add(centerLeftCardPanel, BorderLayout.CENTER);
 
-        centerLeftCardPanel.setLayout(new GridLayout(3,1));
-        centerLeftCardPanel.add(new JPanel());
-        centerLeftCardPanel.add(centerLCCPanel);
-        centerLeftCardPanel.add(new JPanel());
+        loadAblagestapel();
 
-        centerLCCPanel.setLayout(new BorderLayout(10,10));
-        centerLCCPanel.setBackground(Color.RED);
-        //TODO Bild von Karte laden
+        centerRightPanel.setLayout(new BorderLayout(10,10));
+        centerRightPanel.setBorder(BorderFactory.createEmptyBorder(80,40,80,40));
+        centerRightPanel.add(centerRightCardPanel, BorderLayout.CENTER);
 
-        centerRightPanel.setLayout(new BorderLayout());
-        centerRightPanel.setBackground(Color.BLUE);
-        centerRightPanel.add(centerRightCardPanel, BorderLayout.WEST);
-
-        centerRightCardPanel.setLayout(new GridLayout(3,1));
-        centerRightCardPanel.add(new JPanel());
-        centerRightCardPanel.add(centerRCCPanel);
-        centerRightCardPanel.add(new JPanel());
-
-        centerRCCPanel.setLayout(new BorderLayout(10,10));
-        centerRCCPanel.setBackground(Color.RED);
-        //TODO Bild von Karte laden
+        URL path2 = getClass().getResource("../img/rueckseite.jpg");
+        ImageIcon imageIcon2 = new ImageIcon(path2);
+        Image image2 = imageIcon2.getImage();
+        Image newimg2 = image2.getScaledInstance(275, 410, java.awt.Image.SCALE_SMOOTH);
+        imageIcon2 = new ImageIcon(newimg2);
+        JLabel img2 = new JLabel();
+        img2.setIcon(imageIcon2);
+        centerRightCardPanel.add(img2);
 
         legenButton.addActionListener(e -> {
             if (!cardList.isSelectionEmpty()){
@@ -211,10 +202,7 @@ public class GameView extends JPanel {
             }
         });
 
-        ziehenButton.addActionListener(e -> {
-            //TODO muss legen wenn kann
-            GameController.ziehenButtonController(currentSpieler,kartenstapel,this);
-        });
+        ziehenButton.addActionListener(e -> GameController.ziehenButtonController(currentSpieler,kartenstapel,ablagestapel,this));
 
         tschauButton.addActionListener(e -> {
 
@@ -225,6 +213,18 @@ public class GameView extends JPanel {
         });
 
         exitButton.addActionListener(e -> GameController.exitButtonController(mainFrame));
+    }
+
+    public void loadAblagestapel(){
+        centerLeftCardPanel.removeAll();
+        URL path1 = ablagestapel.getObersteKarte().getPath();
+        ImageIcon imageIcon1 = new ImageIcon(path1);
+        Image image1 = imageIcon1.getImage();
+        Image newimg1 = image1.getScaledInstance(275, 410, java.awt.Image.SCALE_SMOOTH);
+        imageIcon1 = new ImageIcon(newimg1);
+        JLabel img1 = new JLabel();
+        img1.setIcon(imageIcon1);
+        centerLeftCardPanel.add(img1);
     }
 
     public void paintCurrentPlayerCards(){
@@ -287,11 +287,16 @@ public class GameView extends JPanel {
     }
 
     public void nextSpieler(){
+        ziehenButton.setEnabled(true);
         currentSpieler = spielerListe.get(spielerCntr);
         if (spielerCntr == (spielerListe.size() - 1)){
             spielerCntr = 0;
         } else {
             spielerCntr++;
         }
+    }
+
+    public void setDisabled(){
+        ziehenButton.setEnabled(false);
     }
 }

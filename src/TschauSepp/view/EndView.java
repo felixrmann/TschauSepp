@@ -46,15 +46,19 @@ public class EndView extends JPanel {
         midPanel.setBackground(new Color(30,87,216));
 
         mainPanel.setLayout(new BorderLayout(10,10));
+        mainPanel.setPreferredSize(new Dimension(386, 458));
         mainPanel.add(topLabel, BorderLayout.NORTH);
         mainPanel.add(midPanel, BorderLayout.CENTER);
 
         topLabel.setText("Der Gewinner ist:");
         topLabel.setFont(new Font(topLabel.getFont().getName(), Font.PLAIN, 30));
 
+        JPanel panel1 = new JPanel();
+        panel1.setBackground(new Color(30,87,216));
         midPanel.setLayout(new BorderLayout());
         midPanel.setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
         midPanel.add(gewinnerLabel, BorderLayout.CENTER);
+        midPanel.add(panel1, BorderLayout.SOUTH);
 
         gewinnerLabel.setText(gewinner.getName());
         gewinnerLabel.setFont(new Font(topLabel.getFont().getName(), Font.PLAIN, 40));

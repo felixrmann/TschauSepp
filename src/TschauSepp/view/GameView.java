@@ -97,20 +97,27 @@ public class GameView extends JPanel {
         }
     }
 
-    private void runGame() {
-        while (winner == null) {
-            game.nextRound();
-
-            if (kartenstapel.getAnzKarten() <= 5) {
-                kartenstapel.addKartenset();
-            }
-        }
-    }
-
     private void init() {
         add(mainPanel);
 
+        mainPanel.setBackground(new Color(30,87,216));
+        topPanel.setBackground(new Color(30,87,216));
+        botPanel.setBackground(new Color(30,87,216));
+        centerPanel.setBackground(new Color(30,87,216));
+        centerLeftPanel.setBackground(new Color(30,87,216));
+        centerRightPanel.setBackground(new Color(30,87,216));
+        centerLeftCardPanel.setBackground(new Color(30,87,216));
+        centerRightCardPanel.setBackground(new Color(30,87,216));
+        westPanel.setBackground(new Color(30,87,216));
+        playerPanel.setBackground(new Color(30,87,216));
+        movePanel.setBackground(new Color(30,87,216));
+        movePanelContent.setBackground(new Color(30,87,216));
+        cardPanel.setBackground(new Color(30,87,216));
+        sayPanelContent.setBackground(new Color(30,87,216));
+
+
         mainPanel.setLayout(new BorderLayout(10, 10));
+        mainPanel.setPreferredSize(new Dimension(890,840));
         mainPanel.add(topPanel, BorderLayout.NORTH);
         mainPanel.add(westPanel, BorderLayout.WEST);
         mainPanel.add(botPanel, BorderLayout.SOUTH);
@@ -129,6 +136,7 @@ public class GameView extends JPanel {
         westPanel.setLayout(new BorderLayout(10, 10));
         JPanel panel1 = new JPanel();
         panel1.setPreferredSize(new Dimension(100, 50));
+        panel1.setBackground(new Color(30,87,216));
         westPanel.add(panel1, BorderLayout.NORTH);
         westPanel.add(playerPanel, BorderLayout.CENTER);
         westPanel.add(panel1, BorderLayout.SOUTH);
@@ -136,7 +144,7 @@ public class GameView extends JPanel {
         GridLayout grid = new GridLayout(spielerListe.size() - 1, 1);
         grid.setVgap(20);
         playerPanel.setLayout(grid);
-        playerPanel.setBorder(BorderFactory.createEmptyBorder(10,00,10,0));
+        playerPanel.setBorder(BorderFactory.createEmptyBorder(10,0,10,0));
 
         botPanel.setLayout(new BorderLayout());
         botPanel.add(movePanel, BorderLayout.WEST);

@@ -82,7 +82,7 @@ public class PrepareView extends JPanel {
         midPanel.add(modusPanel, BorderLayout.SOUTH);
 
         modusPanel.setLayout(new BorderLayout());
-        modusPanel.setBorder(BorderFactory.createEmptyBorder(0,10,5,10));
+        modusPanel.setBorder(BorderFactory.createEmptyBorder(0,10,10,10));
         modusPanel.add(modusAuswahl, BorderLayout.CENTER);
         modusPanel.add(textField, BorderLayout.EAST);
 

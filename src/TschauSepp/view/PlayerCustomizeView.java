@@ -87,9 +87,6 @@ public class PlayerCustomizeView extends JDialog {
             //TODO alles in einem JUnit Testfall hinzufügen
             if (!nameField.getText().equals("")){
                 if (nameField.getText().length() <= 10){
-                    if (hsvPanel.getColorSelectionModel().getSelectedColor().equals(new Color(255,255,255))){
-
-                    }
                     prepareView.addSpieler(new Spieler(nameField.getText(), hsvPanel.getColorSelectionModel().getSelectedColor()));
                     this.dispose();
                 } else {

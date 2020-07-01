@@ -27,7 +27,6 @@ public class GameController {
 
         if (wollenLegenKarteFarbe.equals(currentKarteFarbe) || wollenLegenKarteNummer.equals(currentKarteNummer)){
             if (!currentSpieler.isTschau() && !currentSpieler.isSepp()){
-                System.out.println("alles normal");
                 ablagestapel.addKarte(legenKarte);
                 currentSpieler.removeKarte(legenKarte);
                 gameView.nextSpieler();
@@ -35,7 +34,6 @@ public class GameController {
                 gameView.loadAblagestapel();
                 gameView.loadNetxtPlayerPanel();
             } else if (currentSpieler.isTschau() == currentSpieler.getTschau() && currentSpieler.isTschau()){
-                System.out.println("tschau gut");
                 ablagestapel.addKarte(legenKarte);
                 currentSpieler.removeKarte(legenKarte);
                 gameView.nextSpieler();
@@ -44,7 +42,6 @@ public class GameController {
                 gameView.loadNetxtPlayerPanel();
                 currentSpieler.setTschau(false);
             } else if (currentSpieler.isTschau() != currentSpieler.getTschau() && currentSpieler.isTschau()){
-                System.out.println("Tschau Erroe");
                 gameView.setMessageLabel("Du hasst nicht Tschau gesagt +2 Karten");
                 for (int i = 0; i < 2; i++) {
                     currentSpieler.addKarte(gameView.getKartenstapel().getRandomKarteAndRemove());
@@ -56,7 +53,6 @@ public class GameController {
                 mainFrame.setContent(new EndView(mainFrame, currentSpieler));
                 mainFrame.setFrameSize(400,500);
             } else if (currentSpieler.isSepp() != currentSpieler.getSepp() && currentSpieler.isSepp()){
-                System.out.println("Sepp Error");
                 gameView.setMessageLabel("Du hasst nicht Sepp gesagt +4 Karten");
                 for (int i = 0; i < 4; i++) {
                     currentSpieler.addKarte(gameView.getKartenstapel().getRandomKarteAndRemove());

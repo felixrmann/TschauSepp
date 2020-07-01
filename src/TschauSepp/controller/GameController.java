@@ -8,7 +8,6 @@ import TschauSepp.view.ExitView;
 import TschauSepp.view.GameView;
 import TschauSepp.view.MainFrame;
 
-import javax.swing.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -31,7 +30,9 @@ public class GameController {
             gameView.nextSpieler();
             gameView.paintCurrentPlayerCards();
             gameView.loadAblagestapel();
+            gameView.loadNetxtPlayerPanel();
         }
+        //TODO spezielle karten
     }
 
     public static void ziehenButtonController(Spieler currentSpieler, Kartenstapel kartenstapel, Ablagestapel ablagestapel, GameView gameView){
@@ -71,15 +72,17 @@ public class GameController {
                     }
                 }
             }, 2000);
+        } else {
+            gameView.setMessageLabelNochLegen();
         }
     }
 
     public static void tschauButtonController(Spieler currentSpieler){
-
+        //TODO Tschau
     }
 
     public static void seppButtonController(Spieler currentSpieler){
-
+        //TODO Sepp
     }
 
     public static void exitButtonController(MainFrame mainFrame){

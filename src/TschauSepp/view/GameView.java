@@ -9,6 +9,8 @@ import TschauSepp.model.Spieler;
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.Vector;
 
 /**
@@ -28,13 +30,13 @@ public class GameView extends JPanel {
     private JScrollPane scrollPane;
     private JList<ImageIcon> cardList;
     private DefaultListModel<ImageIcon> defaultListModel;
-    private JLabel topLabel;
+    private JLabel topLabel, messageLabel;
     private JTextArea textArea;
     private JButton legenButton, ziehenButton, tschauButton, seppButton, exitButton;
     private Spieler currentSpieler, winner;
     private int spielerCntr;
 
-    public GameView(MainFrame mainFrame, Vector<Spieler> spielerListe, char modus){
+    public GameView(MainFrame mainFrame, Vector<Spieler> spielerListe, char modus) {
         this.mainFrame = mainFrame;
         this.spielerListe = spielerListe;
         this.modus = modus;
@@ -71,6 +73,7 @@ public class GameView extends JPanel {
         seppButton = new JButton("Sepp");
         exitButton = new JButton("Exit");
         spielerCntr = 0;
+        messageLabel = new JLabel();
         currentSpieler = spielerListe.get(spielerCntr);
         spielerCntr++;
         winner = null;
@@ -79,9 +82,10 @@ public class GameView extends JPanel {
         init();
 
 
-        if (modus == 'k'){
+        //TODO modi volkommen implementieren
+        if (modus == 'k') {
             textArea.setVisible(false);
-            mainFrame.setFrameSize(900,880);
+            mainFrame.setFrameSize(900, 880);
         }
         setAreaText();
         loadNetxtPlayerPanel();
@@ -96,20 +100,20 @@ public class GameView extends JPanel {
         }
     }
 
-    private void runGame(){
-        while (winner == null){
+    private void runGame() {
+        while (winner == null) {
             game.nextRound();
 
-            if (kartenstapel.getAnzKarten() <= 5){
+            if (kartenstapel.getAnzKarten() <= 5) {
                 kartenstapel.addKartenset();
             }
         }
     }
 
-    private void init(){
+    private void init() {
         add(mainPanel);
 
-        mainPanel.setLayout(new BorderLayout(10,10));
+        mainPanel.setLayout(new BorderLayout(10, 10));
         mainPanel.add(topPanel, BorderLayout.NORTH);
         mainPanel.add(westPanel, BorderLayout.WEST);
         mainPanel.add(botPanel, BorderLayout.SOUTH);
@@ -117,74 +121,80 @@ public class GameView extends JPanel {
 
         topPanel.setLayout(new BorderLayout());
         topPanel.add(textArea, BorderLayout.EAST);
+        topPanel.add(messageLabel, BorderLayout.CENTER);
 
-        textArea.setPreferredSize(new Dimension(383,35));
+        textArea.setPreferredSize(new Dimension(383, 35));
 
         topLabel.setText(currentSpieler.getName());
+        topLabel.setBackground(currentSpieler.getFarbe());
+        topLabel.setOpaque(true);
 
-        westPanel.setLayout(new BorderLayout(10,10));
+        westPanel.setLayout(new BorderLayout(10, 10));
         JPanel panel1 = new JPanel();
-        panel1.setPreferredSize(new Dimension(100,50));
+        panel1.setPreferredSize(new Dimension(100, 50));
         westPanel.add(panel1, BorderLayout.NORTH);
         westPanel.add(playerPanel, BorderLayout.CENTER);
         westPanel.add(panel1, BorderLayout.SOUTH);
 
-        playerPanel.setLayout(new GridLayout(spielerListe.size() - 1, 1));
+        GridLayout grid = new GridLayout(spielerListe.size() - 1, 1);
+        grid.setVgap(20);
+        playerPanel.setLayout(grid);
+        playerPanel.setBorder(BorderFactory.createEmptyBorder(10,00,10,0));
 
         botPanel.setLayout(new BorderLayout());
         botPanel.add(movePanel, BorderLayout.WEST);
         botPanel.add(cardPanel, BorderLayout.CENTER);
         botPanel.add(sayPanel, BorderLayout.EAST);
 
-        movePanel.setLayout(new BorderLayout(5,5));
+        movePanel.setLayout(new BorderLayout(5, 5));
         movePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         movePanel.add(movePanelContent, BorderLayout.CENTER);
 
-        GridLayout moveGrid = new GridLayout(3,1);
+        GridLayout moveGrid = new GridLayout(3, 1);
         moveGrid.setVgap(30);
         movePanelContent.setLayout(moveGrid);
-        movePanelContent.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        movePanelContent.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         movePanelContent.add(topLabel);
         movePanelContent.add(legenButton);
         movePanelContent.add(ziehenButton);
 
-        cardPanel.setPreferredSize(new Dimension(650,200));
+        cardPanel.setPreferredSize(new Dimension(650, 200));
         cardPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         cardPanel.add(scrollPane);
 
         cardList.setVisibleRowCount(1);
         cardList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 
-        scrollPane.setPreferredSize(new Dimension(640,190));
+        scrollPane.setPreferredSize(new Dimension(640, 190));
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         paintCurrentPlayerCards();
 
-        sayPanel.setLayout(new BorderLayout(5,5));
+        sayPanel.setLayout(new BorderLayout(5, 5));
         sayPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         sayPanel.add(sayPanelContent, BorderLayout.CENTER);
-        GridLayout sayGrid = new GridLayout(3,1);
+        GridLayout sayGrid = new GridLayout(3, 1);
         sayGrid.setVgap(30);
         sayPanelContent.setLayout(sayGrid);
-        sayPanelContent.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        sayPanelContent.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         sayPanelContent.add(tschauButton);
         sayPanelContent.add(seppButton);
         sayPanelContent.add(exitButton);
 
-        centerPanel.setLayout(new GridLayout(1,2));
-        centerPanel.setPreferredSize(new Dimension(300,580));
+        centerPanel.setLayout(new GridLayout(1, 2));
+        centerPanel.setPreferredSize(new Dimension(300, 580));
         centerPanel.add(centerLeftPanel);
         centerPanel.add(centerRightPanel);
 
-        centerLeftPanel.setLayout(new BorderLayout(10,10));
-        centerLeftPanel.setBorder(BorderFactory.createEmptyBorder(80,40,80,40));
+        centerLeftPanel.setLayout(new BorderLayout(10, 10));
+        centerLeftPanel.setBorder(BorderFactory.createEmptyBorder(80, 40, 80, 40));
         centerLeftPanel.add(centerLeftCardPanel, BorderLayout.CENTER);
 
         loadAblagestapel();
 
-        centerRightPanel.setLayout(new BorderLayout(10,10));
-        centerRightPanel.setBorder(BorderFactory.createEmptyBorder(80,40,80,40));
+        centerRightPanel.setLayout(new BorderLayout(10, 10));
+        centerRightPanel.setBorder(BorderFactory.createEmptyBorder(80, 40, 80, 40));
         centerRightPanel.add(centerRightCardPanel, BorderLayout.CENTER);
 
         URL path2 = getClass().getResource("../img/rueckseite.jpg");
@@ -197,12 +207,14 @@ public class GameView extends JPanel {
         centerRightCardPanel.add(img2);
 
         legenButton.addActionListener(e -> {
-            if (!cardList.isSelectionEmpty()){
+            if (!cardList.isSelectionEmpty()) {
                 GameController.legenButtonController(currentSpieler, ablagestapel, currentSpieler.getHandkarten().get(cardList.getSelectedIndex()), this);
+            } else {
+                setMessageLabelKeineAus();
             }
         });
 
-        ziehenButton.addActionListener(e -> GameController.ziehenButtonController(currentSpieler,kartenstapel,ablagestapel,this));
+        ziehenButton.addActionListener(e -> GameController.ziehenButtonController(currentSpieler, kartenstapel, ablagestapel, this));
 
         tschauButton.addActionListener(e -> {
 
@@ -215,7 +227,7 @@ public class GameView extends JPanel {
         exitButton.addActionListener(e -> GameController.exitButtonController(mainFrame));
     }
 
-    public void loadAblagestapel(){
+    public void loadAblagestapel() {
         centerLeftCardPanel.removeAll();
         URL path1 = ablagestapel.getObersteKarte().getPath();
         ImageIcon imageIcon1 = new ImageIcon(path1);
@@ -227,9 +239,11 @@ public class GameView extends JPanel {
         centerLeftCardPanel.add(img1);
     }
 
-    public void paintCurrentPlayerCards(){
+    public void paintCurrentPlayerCards() {
         defaultListModel.removeAllElements();
         topLabel.setText(currentSpieler.getName());
+        topLabel.setBackground(currentSpieler.getFarbe());
+        topLabel.setOpaque(true);
         movePanel.setBackground(currentSpieler.getFarbe());
         cardPanel.setBackground(currentSpieler.getFarbe());
         sayPanel.setBackground(currentSpieler.getFarbe());
@@ -243,17 +257,42 @@ public class GameView extends JPanel {
         }
     }
 
-    private void loadNetxtPlayerPanel(){
-        for (int i = 0; i < spielerListe.size(); i++) {
-            JPanel panel = new JPanel();
+    public void loadNetxtPlayerPanel() {
+        playerPanel.removeAll();
+        for (int i = spielerListe.size() - 2; i >= 0; i--) {
+            JPanel panel = new JPanel(new BorderLayout());
+            JPanel namePanel = new JPanel();
+            JLabel name = new JLabel(spielerListe.get(getNextPlayers(i)).getName() + ":    " + spielerListe.get(getNextPlayers(i)).getHandkarten().size());
+            GridLayout grid = new GridLayout(2,1);
+            grid.setVgap(10);
+            JPanel midPanel = new JPanel(grid);
+            JButton tschauButton = new JButton("Tschau");
+            JButton sepButton = new JButton("Sepp");
 
-            //TODO nächste Spieler anzeigen
+            panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            panel.add(namePanel, BorderLayout.NORTH);
+            panel.add(midPanel, BorderLayout.CENTER);
 
-            westPanel.add(panel);
+            namePanel.setBackground(spielerListe.get(getNextPlayers(i)).getFarbe());
+            namePanel.add(name);
+
+            midPanel.add(tschauButton);
+            midPanel.add(sepButton);
+            midPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+
+            tschauButton.addActionListener(e -> {
+                //TODO tschu-Logik hinzufügen
+            });
+
+            sepButton.addActionListener(e -> {
+                //TODO sepp-logik hinzufügen
+            });
+
+            playerPanel.add(panel);
         }
     }
 
-    private void setAreaText(){
+    private void setAreaText() {
         //TODO mit Tabelle lösen
         StringBuilder s = new StringBuilder();
         for (Spieler spieler : spielerListe) {
@@ -266,37 +305,63 @@ public class GameView extends JPanel {
         textArea.setText(s.toString());
     }
 
-    private char getModus(){
-        return modus;
-    }
-
-    public void areThereCards(){
-        kartenstapel.hasCards();
-    }
-
-    public void setWinner(){
-        this.winner = currentSpieler;
-    }
-
-    public void setCurrentSpieler(Spieler spieler) {
-        this.currentSpieler = spieler;
-    }
-
-    public Vector<Spieler> getSpielerListe(){
+    public Vector<Spieler> getSpielerListe() {
         return spielerListe;
     }
 
-    public void nextSpieler(){
+    public void nextSpieler() {
         ziehenButton.setEnabled(true);
         currentSpieler = spielerListe.get(spielerCntr);
-        if (spielerCntr == (spielerListe.size() - 1)){
+        if (spielerCntr == (spielerListe.size() - 1)) {
             spielerCntr = 0;
         } else {
             spielerCntr++;
         }
     }
 
-    public void setDisabled(){
+    public void setDisabled() {
         ziehenButton.setEnabled(false);
+    }
+
+    public void setMessageLabelNochLegen() {
+        messageLabel.setText("Du kannst noch eine Karte legen.");
+        messageLabel.setFont(new Font(messageLabel.getFont().getName(), Font.PLAIN, 26));
+        messageLabel.setForeground(Color.RED);
+        java.util.Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                messageLabel.setText("");
+            }
+        }, 3000);
+    }
+
+    public void setMessageLabelKeineAus() {
+        messageLabel.setText("Du musst eine Karte Auswählen.");
+        messageLabel.setFont(new Font(messageLabel.getFont().getName(), Font.PLAIN, 26));
+        messageLabel.setForeground(Color.RED);
+        java.util.Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                messageLabel.setText("");
+            }
+        }, 3000);
+    }
+
+    public int getNextPlayers(int index) {
+        Vector<Integer> nextNumbers = new Vector<>();
+        int tempCntr = spielerCntr;
+        nextNumbers.add(tempCntr);
+        for (int i = 0; i < spielerListe.size() - 2; i++) {
+            if (tempCntr == (spielerListe.size() - 1)) {
+                tempCntr = 0;
+                nextNumbers.add(tempCntr);
+            } else {
+                tempCntr++;
+                nextNumbers.add(tempCntr);
+            }
+        }
+        return nextNumbers.get(index);
     }
 }

@@ -14,5 +14,7 @@ public class TschauSepp {
     public static void main(String[] args) {
         MainFrame mainFrame = new MainFrame();
         mainFrame.setContent(new Menue(mainFrame));
+
+        //TODO alle Panels färben
     }
 }

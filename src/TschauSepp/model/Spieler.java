@@ -14,10 +14,14 @@ public class Spieler {
     private Color farbe;
     private Vector<Karte> handkarten;
     private int punktestand;
+    private boolean tschau, sepp;
 
     public Spieler(String name, Color farbe){
         this.name = name;
         this.farbe = farbe;
+
+        tschau = false;
+        sepp = false;
 
         handkarten = new Vector<>();
     }
@@ -47,14 +51,30 @@ public class Spieler {
     }
 
     public boolean isTschau(){
-        return handkarten.size() <= 2;
+        return handkarten.size() == 2;
     }
 
     public boolean isSepp(){
-        return handkarten.size() <= 1;
+        return handkarten.size() == 1;
     }
 
     public Vector<Karte> getHandkarten(){
         return handkarten;
+    }
+
+    public boolean getTschau(){
+        return tschau;
+    }
+
+    public boolean getSepp(){
+        return sepp;
+    }
+
+    public void setTschau(boolean tschau) {
+        this.tschau = tschau;
+    }
+
+    public void setSepp(boolean sepp) {
+        this.sepp = sepp;
     }
 }

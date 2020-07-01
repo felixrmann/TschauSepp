@@ -38,6 +38,10 @@ public class ExitView extends JDialog {
     private void init() {
         getContentPane().add(mainPanel);
 
+        mainPanel.setBackground(new Color(30,87,216));
+        textPanel.setBackground(new Color(30,87,216));
+        buttonPanel.setBackground(new Color(30,87,216));
+
         mainPanel.setLayout(new BorderLayout(10,10));
         mainPanel.add(textPanel, BorderLayout.CENTER);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);

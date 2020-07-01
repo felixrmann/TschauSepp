@@ -1,5 +1,6 @@
 package TschauSepp.controller;
 
+import TschauSepp.model.Modus;
 import TschauSepp.model.Spieler;
 import TschauSepp.view.*;
 
@@ -26,7 +27,7 @@ public class PrepareController {
         mainFrame.setContent(new Menue(mainFrame));
     }
 
-    public static void playButtonController(MainFrame mainFrame, Vector<Spieler> spielerListe, char modus){
+    public static void playButtonController(MainFrame mainFrame, Vector<Spieler> spielerListe, Modus modus){
         mainFrame.setFrameSize(900,900);
         mainFrame.setContent(new GameView(mainFrame, spielerListe, modus));
     }

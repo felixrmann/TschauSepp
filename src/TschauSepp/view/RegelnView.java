@@ -30,13 +30,20 @@ public class RegelnView extends JPanel {
         cancelButton = new JButton("cancel");
         modus = 'p';
 
-        //TODO text für Punkte modus
         p =     "Punkte - Regeln\n\n" +
-                "Hier Stehen die Punkte-Regln";
+                "Beim Punkte-Modus könnt ihr auswählen, \n" +
+                "auf wie viele Punkte ihr spielen wollt.\n" +
+                "Das Spiel wird erst beendet, wenn einer\n" +
+                "von euch die erforderlichen Punkte\n" +
+                "erreicht habt. \n\n\n" +
+                "Viel Glück";
 
-        //TODO text für Karten modus
         k =     "Karten - Regeln\n\n" +
-                "Hier Stehen die Karten-Regln";
+                "Beim Karten-Modus geht es darum, \n" +
+                "welcher Spieler am schnellsten mit \n" +
+                "seiner Hand fertig ist, sie also \n" +
+                "abgelegt hat.\n\n\n" +
+                "Viel Glück";
 
         init();
     }
@@ -44,7 +51,13 @@ public class RegelnView extends JPanel {
     private void init(){
         add(mainPanel);
 
-        mainPanel.setLayout(new BorderLayout(10,10));
+        mainPanel.setBackground(new Color(30,87,216));
+        topPanel.setBackground(new Color(30,87,216));
+        midPanel.setBackground(new Color(30,87,216));
+        botPanel.setBackground(new Color(30,87,216));
+
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.setPreferredSize(new Dimension(386,458));
         mainPanel.add(topPanel, BorderLayout.NORTH);
         mainPanel.add(midPanel, BorderLayout.CENTER);
         mainPanel.add(botPanel, BorderLayout.SOUTH);

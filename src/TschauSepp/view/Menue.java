@@ -7,16 +7,27 @@ import java.awt.*;
 import java.net.URL;
 
 /**
+ * The type Menue.
+ *
  * @author Felix Mann
  * @version 1.0
- * @since 2020-Mai-29
+ * @since 2020 -Mai-29
  */
-
 public class Menue extends JPanel{
-    private MainFrame mainFrame;
-    private JPanel mainPanel, topPanel, botPanel, botMidPanel;
-    private JButton playButton, regelnButton, exitButton;
+    private final MainFrame mainFrame;
+    private final JPanel mainPanel;
+    private final JPanel topPanel;
+    private final JPanel botPanel;
+    private final JPanel botMidPanel;
+    private final JButton playButton;
+    private final JButton regelnButton;
+    private final JButton exitButton;
 
+    /**
+     * Instantiates a new Menue.
+     *
+     * @param mainFrame the main frame
+     */
     public Menue(MainFrame mainFrame){
         this.mainFrame = mainFrame;
 
@@ -54,8 +65,6 @@ public class Menue extends JPanel{
         JLabel img1 = new JLabel();
         img1.setIcon(imageIcon1);
         topPanel.add(img1);
-
-        //TODO topPanel (Titel oder sowas)
 
         botPanel.setLayout(new GridLayout(1, 3));
         JPanel panel1 = new JPanel();

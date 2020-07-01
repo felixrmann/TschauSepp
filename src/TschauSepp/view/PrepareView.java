@@ -1,10 +1,14 @@
 package TschauSepp.view;
 
 import TschauSepp.controller.PrepareController;
+import TschauSepp.model.Modus;
 import TschauSepp.model.Spieler;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.Objects;
 import java.util.Vector;
 
 /**
@@ -19,6 +23,7 @@ public class PrepareView extends JPanel {
     private final JPanel topPanel;
     private final JPanel midPanel;
     private final JPanel botPanel;
+    private JPanel modusPanel;
     private final Vector<Spieler> spielerVector;
     private final JList<Spieler> spielerListe;
     private final JScrollPane scrollPane;
@@ -27,6 +32,7 @@ public class PrepareView extends JPanel {
     private final JButton playButton;
     private final JButton addPlayerButton;
     private final JButton removePlayerButton;
+    private JTextField textField;
 
     public PrepareView(MainFrame mainFrame){
         this.mainFrame = mainFrame;
@@ -35,8 +41,10 @@ public class PrepareView extends JPanel {
         topPanel = new JPanel();
         midPanel = new JPanel();
         botPanel = new JPanel();
+        modusPanel = new JPanel();
         spielerVector = new Vector<>();
         spielerListe = new JList<>(spielerVector);
+        textField = new JTextField(5);
         spielerListe.setCellRenderer(new CellRenderer());
         scrollPane = new JScrollPane(spielerListe, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         String[] modi = new String[]{"Punkte-Modus", "Karten-Modus"};
@@ -52,7 +60,15 @@ public class PrepareView extends JPanel {
     private void init(){
         add(mainPanel);
 
-        mainPanel.setLayout(new BorderLayout(10,10));
+        mainPanel.setBackground(new Color(30,87,216));
+        topPanel.setBackground(new Color(30,87,216));
+        midPanel.setBackground(new Color(30,87,216));
+        botPanel.setBackground(new Color(30,87,216));
+        scrollPane.setBackground(new Color(30,87,216));
+        modusPanel.setBackground(new Color(30,87,216));
+
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.setPreferredSize(new Dimension(386, 458));
         mainPanel.add(topPanel, BorderLayout.NORTH);
         mainPanel.add(midPanel, BorderLayout.CENTER);
         mainPanel.add(botPanel, BorderLayout.SOUTH);
@@ -63,9 +79,19 @@ public class PrepareView extends JPanel {
 
         midPanel.setLayout(new BorderLayout(10,10));
         midPanel.add(scrollPane, BorderLayout.CENTER);
-        midPanel.add(modusAuswahl, BorderLayout.SOUTH);
+        midPanel.add(modusPanel, BorderLayout.SOUTH);
+
+        modusPanel.setLayout(new BorderLayout());
+        modusPanel.setBorder(BorderFactory.createEmptyBorder(0,10,5,10));
+        modusPanel.add(modusAuswahl, BorderLayout.CENTER);
+        modusPanel.add(textField, BorderLayout.EAST);
+
+        textField.setText("0");
+
+        modusAuswahl.setBorder(BorderFactory.createEmptyBorder(0,0,0,10));
 
         scrollPane.setPreferredSize(new Dimension(350,340));
+        scrollPane.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
 
         botPanel.setLayout(new BorderLayout());
         botPanel.add(cancelButton, BorderLayout.WEST);
@@ -82,13 +108,31 @@ public class PrepareView extends JPanel {
         cancelButton.addActionListener(e -> PrepareController.cancelButtonController(mainFrame));
 
         playButton.addActionListener(e -> {
-            if (getSpielerCount() <= 5 && getSpielerCount() > 1){
-                PrepareController.playButtonController(mainFrame, spielerVector, getModus());
-            } else {
-                //TODO Exception für anzahl spieler
-                System.err.println("Falsche anzahl Spieler");
+            if (getSpielerCount() <= 5 && getSpielerCount() > 1 && readyModus()){
+                Modus modus = new Modus(getModus(), Integer.parseInt(textField.getText()));
+                if (modus.getModus() == 'k'){
+                    modus.setZielPunkte(0);
+                }
+                PrepareController.playButtonController(mainFrame, spielerVector, modus);
             }
         });
+
+        textField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                String value = textField.getText();
+                int l = value.length();
+                textField.setEditable(e.getKeyChar() >= '0' && e.getKeyChar() <= '9' || KeyEvent.VK_BACK_SPACE == e.getKeyCode());
+            }
+        });
+
+        modusAuswahl.addActionListener(e -> {
+            textField.setVisible(Objects.equals(modusAuswahl.getSelectedItem(), "Punkte-Modus"));
+        });
+    }
+
+    private boolean readyModus(){
+        return !Objects.equals(modusAuswahl.getSelectedItem(), "Punkte-Modus") || !textField.getText().equals("");
     }
 
     int getSpielerCount(){
@@ -99,9 +143,6 @@ public class PrepareView extends JPanel {
         if (getSpielerCount() < 5){
             spielerVector.add(spieler);
             spielerListe.updateUI();
-        } else {
-            //TODO Exception für zu viele Spieler
-            System.err.println("Zu viele Spieler");
         }
     }
 

@@ -42,13 +42,19 @@ public class PlayerCustomizeView extends JDialog {
 
         init();
 
-        setLocationRelativeTo(null);
         setSize(450,400);
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 
     private void init(){
         getContentPane().add(mainPanel);
+
+        mainPanel.setBackground(new Color(30,87,216));
+        mainContentPanel.setBackground(new Color(30,87,216));
+        topPanel.setBackground(new Color(30,87,216));
+        botPanel.setBackground(new Color(30,87,216));
+        botButtonPanel.setBackground(new Color(30,87,216));
 
         mainPanel.setLayout(new BorderLayout(10,10));
         mainPanel.add(mainContentPanel, BorderLayout.CENTER);
@@ -63,9 +69,13 @@ public class PlayerCustomizeView extends JDialog {
         topPanel.add(nameLabel, BorderLayout.NORTH);
         topPanel.add(nameField, BorderLayout.CENTER);
 
+        topPanel.setBorder(BorderFactory.createEmptyBorder(5,10,5,10));
+
         botPanel.setLayout(new BorderLayout(10,10));
         botPanel.add(farbeLabel, BorderLayout.NORTH);
         botPanel.add(hsvPanel, BorderLayout.CENTER);
+
+        botPanel.setBorder(BorderFactory.createEmptyBorder(5,10,5,10));
 
         botButtonPanel.setLayout(new BorderLayout());
         botButtonPanel.add(canelButton, BorderLayout.WEST);
@@ -77,6 +87,9 @@ public class PlayerCustomizeView extends JDialog {
             //TODO alles in einem JUnit Testfall hinzufügen
             if (!nameField.getText().equals("")){
                 if (nameField.getText().length() <= 10){
+                    if (hsvPanel.getColorSelectionModel().getSelectedColor().equals(new Color(255,255,255))){
+
+                    }
                     prepareView.addSpieler(new Spieler(nameField.getText(), hsvPanel.getColorSelectionModel().getSelectedColor()));
                     this.dispose();
                 } else {

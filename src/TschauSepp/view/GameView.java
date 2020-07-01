@@ -1,10 +1,7 @@
 package TschauSepp.view;
 
 import TschauSepp.controller.GameController;
-import TschauSepp.model.Ablagestapel;
-import TschauSepp.model.Game;
-import TschauSepp.model.Kartenstapel;
-import TschauSepp.model.Spieler;
+import TschauSepp.model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,7 +22,6 @@ public class GameView extends JPanel {
     private Kartenstapel kartenstapel;
     private Ablagestapel ablagestapel;
     private Vector<Spieler> spielerListe;
-    private char modus;
     private JPanel mainPanel, topPanel, botPanel, centerPanel, centerRightPanel, centerRightCardPanel, centerLeftPanel, centerLeftCardPanel, westPanel, playerPanel, movePanel, movePanelContent, cardPanel, sayPanel, sayPanelContent;
     private JScrollPane scrollPane;
     private JList<ImageIcon> cardList;
@@ -35,8 +31,9 @@ public class GameView extends JPanel {
     private JButton legenButton, ziehenButton, tschauButton, seppButton, exitButton;
     private Spieler currentSpieler, winner;
     private int spielerCntr;
+    private Modus modus;
 
-    public GameView(MainFrame mainFrame, Vector<Spieler> spielerListe, char modus) {
+    public GameView(MainFrame mainFrame, Vector<Spieler> spielerListe, Modus modus) {
         this.mainFrame = mainFrame;
         this.spielerListe = spielerListe;
         this.modus = modus;
@@ -83,7 +80,7 @@ public class GameView extends JPanel {
 
 
         //TODO modi volkommen implementieren
-        if (modus == 'k') {
+        if (modus.getModus() == 'k') {
             textArea.setVisible(false);
             mainFrame.setFrameSize(900, 880);
         }
@@ -95,7 +92,7 @@ public class GameView extends JPanel {
     private void setPlayerCards(Vector<Spieler> spielerListe, Kartenstapel kartenstapel) {
         for (Spieler spieler : spielerListe) {
             for (int j = 0; j < 7; j++) {
-                spieler.addKarte(kartenstapel.getRandomKarteAndRemove());
+                spieler       .addKarte(kartenstapel.getRandomKarteAndRemove());
             }
         }
     }
@@ -208,16 +205,16 @@ public class GameView extends JPanel {
 
         legenButton.addActionListener(e -> {
             if (!cardList.isSelectionEmpty()) {
-                GameController.legenButtonController(currentSpieler, ablagestapel, currentSpieler.getHandkarten().get(cardList.getSelectedIndex()), this);
+                GameController.legenButtonController(currentSpieler, ablagestapel, currentSpieler.getHandkarten().get(cardList.getSelectedIndex()), this, mainFrame);
             } else {
-                setMessageLabelKeineAus();
+                setMessageLabel("Du hasst keine Karte ausgewählt");
             }
         });
 
         ziehenButton.addActionListener(e -> GameController.ziehenButtonController(currentSpieler, kartenstapel, ablagestapel, this));
 
         tschauButton.addActionListener(e -> {
-
+            GameController.tschauButtonController(currentSpieler);
         });
 
         seppButton.addActionListener(e -> {
@@ -281,11 +278,11 @@ public class GameView extends JPanel {
             midPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
             tschauButton.addActionListener(e -> {
-                //TODO tschu-Logik hinzufügen
+                GameController.tschauButtonController(currentSpieler);
             });
 
             sepButton.addActionListener(e -> {
-                //TODO sepp-logik hinzufügen
+                GameController.seppButtonController(currentSpieler);
             });
 
             playerPanel.add(panel);
@@ -323,21 +320,8 @@ public class GameView extends JPanel {
         ziehenButton.setEnabled(false);
     }
 
-    public void setMessageLabelNochLegen() {
-        messageLabel.setText("Du kannst noch eine Karte legen.");
-        messageLabel.setFont(new Font(messageLabel.getFont().getName(), Font.PLAIN, 26));
-        messageLabel.setForeground(Color.RED);
-        java.util.Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                messageLabel.setText("");
-            }
-        }, 3000);
-    }
-
-    public void setMessageLabelKeineAus() {
-        messageLabel.setText("Du musst eine Karte Auswählen.");
+    public void setMessageLabel(String message) {
+        messageLabel.setText(message);
         messageLabel.setFont(new Font(messageLabel.getFont().getName(), Font.PLAIN, 26));
         messageLabel.setForeground(Color.RED);
         java.util.Timer timer = new Timer();
@@ -356,12 +340,15 @@ public class GameView extends JPanel {
         for (int i = 0; i < spielerListe.size() - 2; i++) {
             if (tempCntr == (spielerListe.size() - 1)) {
                 tempCntr = 0;
-                nextNumbers.add(tempCntr);
             } else {
                 tempCntr++;
-                nextNumbers.add(tempCntr);
             }
+            nextNumbers.add(tempCntr);
         }
         return nextNumbers.get(index);
+    }
+
+    public Kartenstapel getKartenstapel(){
+        return kartenstapel;
     }
 }

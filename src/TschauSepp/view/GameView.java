@@ -124,6 +124,7 @@ public class GameView extends JPanel {
         mainPanel.add(centerPanel, BorderLayout.CENTER);
 
         topPanel.setLayout(new BorderLayout());
+        topPanel.setPreferredSize(new Dimension(900, 30));
         topPanel.add(textArea, BorderLayout.EAST);
         topPanel.add(messageLabel, BorderLayout.CENTER);
 
@@ -212,6 +213,10 @@ public class GameView extends JPanel {
         centerRightCardPanel.add(img2);
 
         legenButton.addActionListener(e -> {
+            if (kartenstapel.getAnzKarten() > 5){
+                ablagestapel.getAlleKartenAndEmpty();
+            }
+
             if (!cardList.isSelectionEmpty()) {
                 GameController.legenButtonController(currentSpieler, ablagestapel, currentSpieler.getHandkarten().get(cardList.getSelectedIndex()), this, mainFrame);
             } else {
@@ -298,7 +303,6 @@ public class GameView extends JPanel {
     }
 
     private void setAreaText() {
-        //TODO mit Tabelle lösen
         StringBuilder s = new StringBuilder();
         for (Spieler spieler : spielerListe) {
             s.append(spieler.getName()).append("\t");
@@ -322,6 +326,24 @@ public class GameView extends JPanel {
         } else {
             spielerCntr++;
         }
+    }
+
+    public void skipSpieler(){
+        if (spielerCntr == (spielerListe.size() - 1)) {
+            spielerCntr = 0;
+        } else {
+            spielerCntr++;
+        }
+    }
+
+    public Spieler getNextSpieler(){
+        int temp = spielerCntr;
+        if ((temp + 1) >= (spielerListe.size() - 1)){
+            temp = 0;
+        } else {
+            temp++;
+        }
+        return spielerListe.get(temp);
     }
 
     public void setDisabled() {
@@ -358,5 +380,13 @@ public class GameView extends JPanel {
 
     public Kartenstapel getKartenstapel(){
         return kartenstapel;
+    }
+
+    public Modus getModus(){return modus;}
+
+    public MainFrame getMainFrame(){return mainFrame;}
+
+    public void setTopCard(Karte karte){
+        ablagestapel.setObersteKarte(karte);
     }
 }

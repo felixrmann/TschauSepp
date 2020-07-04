@@ -2,7 +2,6 @@ package TschauSepp.view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.security.KeyStore;
 
 /**
  * @author Felix Mann
@@ -58,9 +57,7 @@ public class ExitView extends JDialog {
         buttonPanel.add(cancelButton);
         buttonPanel.add(exitButton);
 
-        cancelButton.addActionListener(e -> {
-            this.dispose();
-        });
+        cancelButton.addActionListener(e -> this.dispose());
 
         exitButton.addActionListener(e -> {
             mainFrame.setContent(new Menue(mainFrame));

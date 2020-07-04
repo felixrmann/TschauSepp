@@ -21,11 +21,10 @@ public class GameStart {
         Vector<Spieler> spielerListe = new Vector<>();
         spielerListe.add(new Spieler("Spieler 1", Color.RED));
         spielerListe.add(new Spieler("Spieler 2", Color.BLUE));
-        /*
         spielerListe.add(new Spieler("Spieler 3", Color.GREEN));
         spielerListe.add(new Spieler("Spieler 4", Color.GRAY));
         spielerListe.add(new Spieler("Spieler 5", Color.CYAN));
-         */
+
         mainFrame.setFrameSize(900,900);
         mainFrame.setContent(new GameView(mainFrame, spielerListe, new Modus('k', 0)));
     }

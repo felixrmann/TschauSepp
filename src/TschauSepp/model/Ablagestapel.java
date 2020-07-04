@@ -23,10 +23,18 @@ public class Ablagestapel {
         return alleKarten.get(alleKarten.size() - 1);
     }
 
-    public Vector<Karte> getAlleKartenAndEmpty(){
-        Vector<Karte> temp;
-        temp = alleKarten;
-        alleKarten.clear();
-        return temp;
+    public void setObersteKarte(Karte karte){
+        alleKarten.add(karte);
     }
+
+    public Vector<Karte> getAlleKartenAndEmpty(){
+        Karte tempKar = alleKarten.get(alleKarten.size() -1);
+        alleKarten.remove(tempKar);
+        Vector<Karte> tempalle = new Vector<>(alleKarten);
+        alleKarten.clear();
+        alleKarten.add(tempKar);
+        return tempalle;
+    }
+
+
 }

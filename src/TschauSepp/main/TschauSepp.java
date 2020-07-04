@@ -1,5 +1,6 @@
 package TschauSepp.main;
 
+import TschauSepp.view.AuswahlView;
 import TschauSepp.view.MainFrame;
 import TschauSepp.view.Menue;
 

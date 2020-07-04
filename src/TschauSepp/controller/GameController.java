@@ -4,10 +4,7 @@ import TschauSepp.model.Ablagestapel;
 import TschauSepp.model.Karte;
 import TschauSepp.model.Kartenstapel;
 import TschauSepp.model.Spieler;
-import TschauSepp.view.EndView;
-import TschauSepp.view.ExitView;
-import TschauSepp.view.GameView;
-import TschauSepp.view.MainFrame;
+import TschauSepp.view.*;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -28,12 +25,14 @@ public class GameController {
         if (wollenLegenKarteFarbe.equals(currentKarteFarbe) || wollenLegenKarteNummer.equals(currentKarteNummer)){
             if (!currentSpieler.isTschau() && !currentSpieler.isSepp()){
                 ablagestapel.addKarte(legenKarte);
+                zugFolgen(gameView, currentSpieler, legenKarte);
                 currentSpieler.removeKarte(legenKarte);
                 gameView.nextSpieler();
                 gameView.paintCurrentPlayerCards();
                 gameView.loadAblagestapel();
                 gameView.loadNetxtPlayerPanel();
             } else if (currentSpieler.isTschau() == currentSpieler.getTschau() && currentSpieler.isTschau()){
+                zugFolgen(gameView, currentSpieler, legenKarte);
                 ablagestapel.addKarte(legenKarte);
                 currentSpieler.removeKarte(legenKarte);
                 gameView.nextSpieler();
@@ -50,8 +49,13 @@ public class GameController {
                 gameView.paintCurrentPlayerCards();
                 gameView.loadNetxtPlayerPanel();
             } else if (currentSpieler.isSepp() == currentSpieler.getSepp() && currentSpieler.isSepp()){
-                mainFrame.setContent(new EndView(mainFrame, currentSpieler));
-                mainFrame.setFrameSize(400,500);
+                if (gameView.getModus().getModus() == 'k'){
+                    mainFrame.setContent(new EndView(mainFrame, currentSpieler));
+                    mainFrame.setFrameSize(400,500);
+                } else if (currentSpieler.getPunktestand() >= gameView.getModus().getZielPunkte()){
+
+                }
+
             } else if (currentSpieler.isSepp() != currentSpieler.getSepp() && currentSpieler.isSepp()){
                 gameView.setMessageLabel("Du hasst nicht Sepp gesagt +4 Karten");
                 for (int i = 0; i < 4; i++) {
@@ -61,9 +65,7 @@ public class GameController {
                 gameView.paintCurrentPlayerCards();
                 gameView.loadNetxtPlayerPanel();
             }
-
         }
-        //TODO spezielle karten
     }
 
     public static void ziehenButtonController(Spieler currentSpieler, Kartenstapel kartenstapel, Ablagestapel ablagestapel, GameView gameView){
@@ -118,5 +120,31 @@ public class GameController {
 
     public static void exitButtonController(MainFrame mainFrame){
         new ExitView(mainFrame);
+    }
+
+    private static void zugFolgen(GameView gameView, Spieler currentSpieler, Karte legenKarte){
+        switch (legenKarte.getKuerzel().substring(2,4)){
+            case "A_":
+                //Ass muss bedeckt werden
+
+                break;
+            case "U_":
+                new AuswahlView(gameView.getMainFrame(), gameView);
+                gameView.nextSpieler();
+                gameView.paintCurrentPlayerCards();
+                break;
+            case "10":
+                //spielrichtung ändern
+
+                break;
+            case "8_":
+                gameView.skipSpieler();
+                break;
+            case "7_":
+                for (int i = 0; i < 2; i++) {
+                    gameView.getNextSpieler().addKarte(gameView.getKartenstapel().getRandomKarteAndRemove());
+                }
+                break;
+        }
     }
 }

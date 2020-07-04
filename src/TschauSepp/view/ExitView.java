@@ -4,17 +4,23 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
+ * The type Exit view.
+ *
  * @author Felix Mann
  * @version 1.0
- * @since 2020-Juni-28
+ * @since 2020 -Juni-28
  */
-
 public class ExitView extends JDialog {
     private MainFrame mainFrame;
     private JPanel mainPanel, textPanel, buttonPanel;
     private JButton cancelButton, exitButton;
     private JTextArea textArea;
 
+    /**
+     * Instantiates a new Exit view.
+     *
+     * @param mainFrame the main frame
+     */
     public ExitView(MainFrame mainFrame){
         super(mainFrame, "Exit?", true);
 

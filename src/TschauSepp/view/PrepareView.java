@@ -12,11 +12,12 @@ import java.util.Objects;
 import java.util.Vector;
 
 /**
+ * The type Prepare view.
+ *
  * @author Felix Mann
  * @version 1.0
- * @since 2020-Mai-29
+ * @since 2020 -Mai-29
  */
-
 public class PrepareView extends JPanel {
     private final MainFrame mainFrame;
     private final JPanel mainPanel;
@@ -34,6 +35,11 @@ public class PrepareView extends JPanel {
     private final JButton removePlayerButton;
     private JTextField textField;
 
+    /**
+     * Instantiates a new Prepare view.
+     *
+     * @param mainFrame the main frame
+     */
     public PrepareView(MainFrame mainFrame){
         this.mainFrame = mainFrame;
 
@@ -135,10 +141,20 @@ public class PrepareView extends JPanel {
         return !Objects.equals(modusAuswahl.getSelectedItem(), "Punkte-Modus") || !textField.getText().equals("");
     }
 
+    /**
+     * Get spieler count int.
+     *
+     * @return the int
+     */
     int getSpielerCount(){
         return spielerVector.size();
     }
 
+    /**
+     * Add spieler.
+     *
+     * @param spieler the spieler
+     */
     void addSpieler(Spieler spieler){
         if (getSpielerCount() < 5){
             spielerVector.add(spieler);
@@ -146,6 +162,11 @@ public class PrepareView extends JPanel {
         }
     }
 
+    /**
+     * Remove spieler.
+     *
+     * @param index the index
+     */
     public void removeSpieler(int index){
         spielerVector.remove(index);
         spielerListe.repaint();
@@ -159,6 +180,9 @@ public class PrepareView extends JPanel {
         }
     }
 
+    /**
+     * The type Cell renderer.
+     */
     static class CellRenderer extends JPanel implements ListCellRenderer<Spieler> {
 
         private final JPanel contentPanel;
@@ -166,6 +190,9 @@ public class PrepareView extends JPanel {
         private final JPanel namePanel;
         private final JLabel nameLabel;
 
+        /**
+         * Instantiates a new Cell renderer.
+         */
         CellRenderer(){
             contentPanel = new JPanel();
             nameLabel = new JLabel();

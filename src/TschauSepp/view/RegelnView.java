@@ -4,11 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
+ * The type Regeln view.
+ *
  * @author Felix Mann
  * @version 1.0
- * @since 2020-Mai-30
+ * @since 2020 -Mai-30
  */
-
 public class RegelnView extends JPanel {
     private MainFrame mainFrame;
     private JPanel mainPanel, topPanel, midPanel, botPanel;
@@ -18,6 +19,11 @@ public class RegelnView extends JPanel {
     private String p;
     private String k;
 
+    /**
+     * Instantiates a new Regeln view.
+     *
+     * @param mainFrame the main frame
+     */
     public RegelnView(MainFrame mainFrame){
         this.mainFrame = mainFrame;
 

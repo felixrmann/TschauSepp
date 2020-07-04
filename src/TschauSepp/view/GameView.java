@@ -11,14 +11,14 @@ import java.util.TimerTask;
 import java.util.Vector;
 
 /**
+ * The type Game view.
+ *
  * @author Felix Mann
  * @version 1.0
- * @since 2020-Juni-04
+ * @since 2020 -Juni-04
  */
-
 public class GameView extends JPanel {
     private MainFrame mainFrame;
-    private Game game;
     private Kartenstapel kartenstapel;
     private Ablagestapel ablagestapel;
     private Vector<Spieler> spielerListe;
@@ -33,6 +33,13 @@ public class GameView extends JPanel {
     private int spielerCntr;
     private Modus modus;
 
+    /**
+     * Instantiates a new Game view.
+     *
+     * @param mainFrame    the main frame
+     * @param spielerListe the spieler liste
+     * @param modus        the modus
+     */
     public GameView(MainFrame mainFrame, Vector<Spieler> spielerListe, Modus modus) {
         this.mainFrame = mainFrame;
         this.spielerListe = spielerListe;
@@ -41,8 +48,6 @@ public class GameView extends JPanel {
         kartenstapel = new Kartenstapel();
         ablagestapel = new Ablagestapel();
         setPlayerCards(spielerListe, kartenstapel);
-
-        game = new Game(this);
 
         defaultListModel = new DefaultListModel<>();
         cardList = new JList<>(defaultListModel);
@@ -237,6 +242,9 @@ public class GameView extends JPanel {
         exitButton.addActionListener(e -> GameController.exitButtonController(mainFrame));
     }
 
+    /**
+     * Load ablagestapel.
+     */
     public void loadAblagestapel() {
         centerLeftCardPanel.removeAll();
         URL path1 = ablagestapel.getObersteKarte().getPath();
@@ -249,6 +257,9 @@ public class GameView extends JPanel {
         centerLeftCardPanel.add(img1);
     }
 
+    /**
+     * Paint current player cards.
+     */
     public void paintCurrentPlayerCards() {
         defaultListModel.removeAllElements();
         topLabel.setText(currentSpieler.getName());
@@ -267,6 +278,9 @@ public class GameView extends JPanel {
         }
     }
 
+    /**
+     * Load netxt player panel.
+     */
     public void loadNetxtPlayerPanel() {
         playerPanel.removeAll();
         for (int i = spielerListe.size() - 2; i >= 0; i--) {
@@ -314,10 +328,18 @@ public class GameView extends JPanel {
         textArea.setText(s.toString());
     }
 
+    /**
+     * Gets spieler liste.
+     *
+     * @return the spieler liste
+     */
     public Vector<Spieler> getSpielerListe() {
         return spielerListe;
     }
 
+    /**
+     * Next spieler.
+     */
     public void nextSpieler() {
         ziehenButton.setEnabled(true);
         currentSpieler = spielerListe.get(spielerCntr);
@@ -328,6 +350,9 @@ public class GameView extends JPanel {
         }
     }
 
+    /**
+     * Skip spieler.
+     */
     public void skipSpieler(){
         if (spielerCntr == (spielerListe.size() - 1)) {
             spielerCntr = 0;
@@ -336,6 +361,11 @@ public class GameView extends JPanel {
         }
     }
 
+    /**
+     * Get next spieler spieler.
+     *
+     * @return the spieler
+     */
     public Spieler getNextSpieler(){
         int temp = spielerCntr;
         if ((temp + 1) >= (spielerListe.size() - 1)){
@@ -346,10 +376,18 @@ public class GameView extends JPanel {
         return spielerListe.get(temp);
     }
 
+    /**
+     * Sets disabled.
+     */
     public void setDisabled() {
         ziehenButton.setEnabled(false);
     }
 
+    /**
+     * Sets message label.
+     *
+     * @param message the message
+     */
     public void setMessageLabel(String message) {
         messageLabel.setText(message);
         messageLabel.setFont(new Font(messageLabel.getFont().getName(), Font.PLAIN, 26));
@@ -363,6 +401,12 @@ public class GameView extends JPanel {
         }, 3000);
     }
 
+    /**
+     * Gets next players.
+     *
+     * @param index the index
+     * @return the next players
+     */
     public int getNextPlayers(int index) {
         Vector<Integer> nextNumbers = new Vector<>();
         int tempCntr = spielerCntr;
@@ -378,14 +422,34 @@ public class GameView extends JPanel {
         return nextNumbers.get(index);
     }
 
+    /**
+     * Get kartenstapel kartenstapel.
+     *
+     * @return the kartenstapel
+     */
     public Kartenstapel getKartenstapel(){
         return kartenstapel;
     }
 
+    /**
+     * Get modus modus.
+     *
+     * @return the modus
+     */
     public Modus getModus(){return modus;}
 
+    /**
+     * Get main frame main frame.
+     *
+     * @return the main frame
+     */
     public MainFrame getMainFrame(){return mainFrame;}
 
+    /**
+     * Set top card.
+     *
+     * @param karte the karte
+     */
     public void setTopCard(Karte karte){
         ablagestapel.setObersteKarte(karte);
     }

@@ -10,12 +10,22 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
+ * The type Game controller.
+ *
  * @author Felix Mann
  * @version 1.0
- * @since 2020-Juni-28
+ * @since 2020 -Juni-28
  */
-
 public class GameController {
+    /**
+     * Legen button controller.
+     *
+     * @param currentSpieler the current spieler
+     * @param ablagestapel   the ablagestapel
+     * @param legenKarte     the legen karte
+     * @param gameView       the game view
+     * @param mainFrame      the main frame
+     */
     public static void legenButtonController(Spieler currentSpieler, Ablagestapel ablagestapel, Karte legenKarte, GameView gameView, MainFrame mainFrame){
         String wollenLegenKarteFarbe = legenKarte.getKuerzel().substring(0,2);
         String currentKarteFarbe = ablagestapel.getObersteKarte().getKuerzel().substring(0,2);
@@ -49,13 +59,8 @@ public class GameController {
                 gameView.paintCurrentPlayerCards();
                 gameView.loadNetxtPlayerPanel();
             } else if (currentSpieler.isSepp() == currentSpieler.getSepp() && currentSpieler.isSepp()){
-                if (gameView.getModus().getModus() == 'k'){
-                    mainFrame.setContent(new EndView(mainFrame, currentSpieler));
-                    mainFrame.setFrameSize(400,500);
-                } else if (currentSpieler.getPunktestand() >= gameView.getModus().getZielPunkte()){
-
-                }
-
+                mainFrame.setContent(new EndView(mainFrame, currentSpieler));
+                mainFrame.setFrameSize(400,500);
             } else if (currentSpieler.isSepp() != currentSpieler.getSepp() && currentSpieler.isSepp()){
                 gameView.setMessageLabel("Du hasst nicht Sepp gesagt +4 Karten");
                 for (int i = 0; i < 4; i++) {
@@ -68,6 +73,14 @@ public class GameController {
         }
     }
 
+    /**
+     * Ziehen button controller.
+     *
+     * @param currentSpieler the current spieler
+     * @param kartenstapel   the kartenstapel
+     * @param ablagestapel   the ablagestapel
+     * @param gameView       the game view
+     */
     public static void ziehenButtonController(Spieler currentSpieler, Kartenstapel kartenstapel, Ablagestapel ablagestapel, GameView gameView){
         String ablageStapelKarteFarbe = ablagestapel.getObersteKarte().getKuerzel().substring(0,2);
         String ablageStapelKarteNummer = ablagestapel.getObersteKarte().getKuerzel().substring(2,4);
@@ -110,14 +123,29 @@ public class GameController {
         }
     }
 
+    /**
+     * Tschau button controller.
+     *
+     * @param currentSpieler the current spieler
+     */
     public static void tschauButtonController(Spieler currentSpieler){
         currentSpieler.setTschau(true);
     }
 
+    /**
+     * Sepp button controller.
+     *
+     * @param currentSpieler the current spieler
+     */
     public static void seppButtonController(Spieler currentSpieler){
         currentSpieler.setSepp(true);
     }
 
+    /**
+     * Exit button controller.
+     *
+     * @param mainFrame the main frame
+     */
     public static void exitButtonController(MainFrame mainFrame){
         new ExitView(mainFrame);
     }

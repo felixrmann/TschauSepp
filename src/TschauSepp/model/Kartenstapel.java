@@ -5,14 +5,18 @@ import java.util.Collections;
 import java.util.Vector;
 
 /**
+ * The type Kartenstapel.
+ *
  * @author Felix Mann
  * @version 1.0
- * @since 2020-Juni-27
+ * @since 2020 -Juni-27
  */
-
 public class Kartenstapel {
     private Vector<Karte> alleKarten;
 
+    /**
+     * Instantiates a new Kartenstapel.
+     */
     public Kartenstapel(){
         alleKarten = new Vector<>();
 
@@ -22,6 +26,9 @@ public class Kartenstapel {
         Collections.shuffle(alleKarten);
     }
 
+    /**
+     * Add kartenset.
+     */
     public void addKartenset(){
         alleKarten.add(new Karte(getClass().getResource("../img/e_6_.gif"),"e_6_",6));
         alleKarten.add(new Karte(getClass().getResource("../img/e_7_.gif"),"e_7_",7));
@@ -64,14 +71,28 @@ public class Kartenstapel {
         alleKarten.add(new Karte(getClass().getResource("../img/siU_.gif"),"siU_",20));
     }
 
+    /**
+     * Clear kartenstapel.
+     */
     public void clearKartenstapel(){
         alleKarten.clear();
     }
 
+    /**
+     * Get karte karte.
+     *
+     * @param index the index
+     * @return the karte
+     */
     public Karte getKarte(int index){
         return alleKarten.get(index);
     }
 
+    /**
+     * Get random karte and remove karte.
+     *
+     * @return the karte
+     */
     public Karte getRandomKarteAndRemove(){
         int index = (int) (Math.random() * alleKarten.size());
         Karte out = alleKarten.get(index);
@@ -79,28 +100,61 @@ public class Kartenstapel {
         return out;
     }
 
+    /**
+     * Remove karte.
+     *
+     * @param index the index
+     */
     public void removeKarte(int index){
         alleKarten.remove(index);
     }
 
+    /**
+     * Remove karte.
+     *
+     * @param karte the karte
+     */
     public void removeKarte(Karte karte){
         alleKarten.remove(karte);
     }
 
+    /**
+     * Gets alle karten.
+     *
+     * @return the alle karten
+     */
     public Vector<Karte> getAlleKarten() {
         return alleKarten;
     }
 
+    /**
+     * Has cards boolean.
+     *
+     * @return the boolean
+     */
     public boolean hasCards(){
         return !alleKarten.isEmpty();
     }
 
+    /**
+     * Get anz karten int.
+     *
+     * @return the int
+     */
     public int getAnzKarten(){return alleKarten.size();}
 
+    /**
+     * Shuffle kartenset.
+     */
     public void shuffleKartenset(){
         Collections.shuffle(alleKarten);
     }
 
+    /**
+     * Add ablagestapel.
+     *
+     * @param ablagestapel the ablagestapel
+     */
     public void addAblagestapel(Vector<Karte> ablagestapel){
         alleKarten.addAll(ablagestapel);
     }

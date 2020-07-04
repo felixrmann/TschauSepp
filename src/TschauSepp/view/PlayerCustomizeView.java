@@ -9,11 +9,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
+ * The type Player customize view.
+ *
  * @author Felix Mann
  * @version 1.0
- * @since 2020-Mai-30
+ * @since 2020 -Mai-30
  */
-
 public class PlayerCustomizeView extends JDialog {
     private PrepareView prepareView;
     private AbstractColorChooserPanel hsvPanel;
@@ -22,6 +23,12 @@ public class PlayerCustomizeView extends JDialog {
     private JTextField nameField;
     private JButton canelButton, saveBtton;
 
+    /**
+     * Instantiates a new Player customize view.
+     *
+     * @param parent      the parent
+     * @param prepareView the prepare view
+     */
     public PlayerCustomizeView(MainFrame parent, PrepareView prepareView){
         super(parent, "Erstellen Sie ihren Spieler", true);
 

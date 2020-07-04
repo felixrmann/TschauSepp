@@ -6,17 +6,24 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
+ * The type Auswahl view.
+ *
  * @author Felix Mann
  * @version 1.0
- * @since 2020-Juli-01
+ * @since 2020 -Juli-01
  */
-
 public class AuswahlView extends JDialog {
     private GameView gameView;
     private JPanel mainPanel, topPanel, auswahlPanel, botPanel;
     private JLabel textLabel;
     private JButton roseButton, schellenButton, schildButton, eichelButton;
 
+    /**
+     * Instantiates a new Auswahl view.
+     *
+     * @param mainFrame the main frame
+     * @param gameView  the game view
+     */
     public AuswahlView(MainFrame mainFrame, GameView gameView){
         super(mainFrame, "Wähle aus", true);
 
@@ -70,6 +77,11 @@ public class AuswahlView extends JDialog {
         roseButton.addActionListener(e -> setNextCard("r_"));
     }
 
+    /**
+     * Set next card.
+     *
+     * @param welche the welche
+     */
     public void setNextCard(String welche){
         switch (welche){
             case "e_":

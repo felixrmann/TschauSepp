@@ -8,11 +8,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
+ * The type End view.
+ *
  * @author Felix Mann
  * @version 1.0
- * @since 2020-Juli-01
+ * @since 2020 -Juli-01
  */
-
 public class EndView extends JPanel {
 
     private JPanel mainPanel, midPanel;
@@ -20,6 +21,12 @@ public class EndView extends JPanel {
     private Spieler gewinner;
 
 
+    /**
+     * Instantiates a new End view.
+     *
+     * @param mainFrame the main frame
+     * @param gewinner  the gewinner
+     */
     public EndView(MainFrame mainFrame, Spieler gewinner){
         this.gewinner = gewinner;
 

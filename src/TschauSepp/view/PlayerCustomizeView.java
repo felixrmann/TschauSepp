@@ -84,7 +84,6 @@ public class PlayerCustomizeView extends JDialog {
         canelButton.addActionListener(e -> this.dispose());
 
         saveBtton.addActionListener(e -> {
-            //TODO alles in einem JUnit Testfall hinzufügen
             if (!nameField.getText().equals("")){
                 if (nameField.getText().length() <= 10){
                     prepareView.addSpieler(new Spieler(nameField.getText(), hsvPanel.getColorSelectionModel().getSelectedColor()));

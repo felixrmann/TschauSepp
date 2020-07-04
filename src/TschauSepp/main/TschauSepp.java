@@ -11,7 +11,6 @@ import TschauSepp.view.Menue;
  */
 
 public class TschauSepp {
-    //TODO alles JUnit testfälle einbauen
     public static void main(String[] args) {
         MainFrame mainFrame = new MainFrame();
         mainFrame.setContent(new Menue(mainFrame));
